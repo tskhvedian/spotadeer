@@ -11,6 +11,8 @@ import {
 import { formatRelative } from "date-fns";
 import { MarkerType, options } from "./_tests/OptionsAndTypes";
 import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input";
+import usePlacesAutocomplete from "use-places-autocomplete";
 
 const center = {
   lat: 41.715137,
@@ -76,14 +78,16 @@ function App() {
       </div>
     );
 
-  console.log(markers);
-  console.log("Selected Marker: ", selected);
-
   return (
     <div className="h-screen w-full">
-      <div className="absolute top-5 left-5 z-10 flex items-center space-x-2">
-        <h1 className="font-bold text-2xl ">DEERS</h1>
-        <span className="text-2xl mb-1">⛺</span>
+      <div className="absolute top-5 left-5 px-6 py-8 rounded-md flex flex-col space-y-2 bg-slate-600 z-10">
+        <div className="flex">
+          <h1 className="font-bold text-gray-50 text-2xl ">DEERS</h1>
+          <span className="text-2xl">⛺</span>
+        </div>
+        <div>
+          <Search />
+        </div>
       </div>
       <GoogleMap
         mapContainerClassName="map-container"
@@ -138,3 +142,31 @@ function App() {
 }
 
 export default App;
+
+function Search() {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      componentRestrictions: {
+        country: "ge",
+      },
+    },
+  });
+
+  console.log(ready, value, data);
+
+  return (
+    <Input
+      type="text"
+      placeholder="Address..."
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+}
