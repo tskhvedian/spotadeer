@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import AlertDialogDemo from "./_tests/AlertDialogDemo";
 
 import {
@@ -28,6 +28,11 @@ function App() {
     googleMapsApiKey: "AIzaSyDer0zwa6AKvY9ocR8EHG_glVhNb9BBORE",
     libraries,
   });
+
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map: any) => {
+    mapRef.current = map;
+  }, []);
 
   const onMapClick = useCallback((e: any) => {
     setMarkers((current) => [
@@ -85,6 +90,7 @@ function App() {
         zoom={12}
         center={center}
         options={options}
+        onLoad={onMapLoad}
         onClick={onMapClick}
       >
         {markers &&
