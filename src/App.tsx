@@ -158,15 +158,20 @@ function Search() {
     },
   });
 
-  console.log(ready, value, data);
-
   return (
-    <Input
-      type="text"
-      placeholder="Address..."
-      onChange={(e) => {
-        setValue(e.target.value);
-      }}
-    />
+    <>
+      <Input
+        type="text"
+        placeholder="Address..."
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+      />
+      {data?.map(({ place_id, description }) => (
+        <ul key={place_id}>
+          <li>{description}</li>
+        </ul>
+      ))}
+    </>
   );
 }
